@@ -1,0 +1,108 @@
+/* Syntax colours for the fences @deno/gfm hands to Prism. Written here rather
+   than importing gfm's bundled GitHub stylesheet, which is large and carries a
+   whole theme this site does not use. */
+
+.highlight pre,
+pre[class*="language-"] {
+  margin: 0;
+}
+
+.highlight {
+  background: var(--bg-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin: 1.2rem 0;
+  overflow: hidden;
+}
+
+.highlight pre {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  line-height: 1.55;
+  font-size: 0.875rem;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--fg-faint);
+  font-style: italic;
+}
+
+.token.punctuation,
+.token.operator {
+  color: var(--fg-dim);
+}
+
+.token.keyword,
+.token.atrule,
+.token.important,
+.token.rule {
+  color: #c792ea;
+}
+
+.token.string,
+.token.char,
+.token.attr-value,
+.token.regex {
+  color: #a5e075;
+}
+
+.token.function,
+.token.class-name {
+  color: var(--brand-strong);
+}
+
+.token.number,
+.token.boolean,
+.token.constant,
+.token.symbol {
+  color: #f78c6c;
+}
+
+.token.property,
+.token.tag,
+.token.selector,
+.token.attr-name {
+  color: var(--accent);
+}
+
+.token.variable,
+.token.parameter {
+  color: var(--fg);
+}
+
+.token.deleted {
+  color: #ff6b81;
+}
+.token.inserted {
+  color: var(--accent);
+}
+
+@media (prefers-color-scheme: light) {
+  .token.keyword,
+  .token.atrule,
+  .token.important,
+  .token.rule {
+    color: #8b2fb8;
+  }
+  .token.string,
+  .token.char,
+  .token.attr-value,
+  .token.regex {
+    color: #1a7f37;
+  }
+  .token.number,
+  .token.boolean,
+  .token.constant,
+  .token.symbol {
+    color: #b8500f;
+  }
+  .token.deleted {
+    color: #c0273d;
+  }
+}

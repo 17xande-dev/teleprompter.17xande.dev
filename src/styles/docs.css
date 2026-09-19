@@ -1,0 +1,233 @@
+/* The docs shell: a sidebar of pages, the prose, and an on-page contents. */
+
+.docs-layout {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr) 14rem;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  max-width: 82rem;
+  margin-inline: auto;
+  padding: 2.5rem clamp(1rem, 4vw, 2rem) 4rem;
+  align-items: start;
+}
+
+@media (width < 68rem) {
+  .docs-layout {
+    grid-template-columns: 14rem minmax(0, 1fr);
+  }
+  .toc {
+    display: none;
+  }
+}
+
+@media (width < 48rem) {
+  .docs-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.docs-nav,
+.toc {
+  position: sticky;
+  top: 5rem;
+  font-size: 0.92rem;
+}
+
+@media (width < 48rem) {
+  .docs-nav {
+    position: static;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+}
+
+.docs-nav ul,
+.toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.docs-nav-home,
+.docs-nav a,
+.toc a {
+  display: block;
+  padding: 0.35rem 0.7rem;
+  color: var(--fg-dim);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  border-radius: 0 6px 6px 0;
+}
+
+.docs-nav-home {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.docs-nav a:hover,
+.toc a:hover {
+  color: var(--fg);
+  background: var(--bg-raised);
+}
+
+.docs-nav a[aria-current="page"],
+.docs-nav-home[aria-current="page"] {
+  color: var(--brand);
+  border-left-color: var(--brand);
+  background: var(--bg-raised);
+  font-weight: 550;
+}
+
+.toc h2 {
+  font-size: 0.75rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin: 0 0 0.6rem 0.7rem;
+}
+.toc .lvl-3 a {
+  padding-left: 1.5rem;
+  font-size: 0.88rem;
+}
+.toc a.current {
+  color: var(--brand);
+  border-left-color: var(--brand);
+}
+
+/* ---------- prose ---------- */
+
+.docs-main {
+  min-width: 0;
+}
+
+.prose {
+  max-width: 46rem;
+}
+
+.prose > h1 {
+  font-size: clamp(2rem, 1.5rem + 1.6vw, 2.6rem);
+  margin-bottom: 0.25rem;
+}
+
+.prose .page-blurb {
+  color: var(--fg-dim);
+  font-size: 1.08rem;
+  margin-bottom: 2rem;
+}
+
+.prose h2 {
+  margin-top: 2.5rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.prose h3 {
+  margin-top: 1.8rem;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.3rem;
+}
+
+.prose li {
+  margin-bottom: 0.35rem;
+}
+
+.prose blockquote {
+  margin: 1.2rem 0;
+  padding: 0.2rem 0 0.2rem 1.1rem;
+  border-left: 3px solid var(--brand);
+  color: var(--fg-dim);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0;
+  font-size: 0.93rem;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+
+.prose th {
+  color: var(--fg);
+  font-weight: 600;
+  border-bottom-color: var(--line);
+  white-space: nowrap;
+}
+
+.prose td code {
+  white-space: nowrap;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--line-soft);
+  margin: 2rem 0;
+}
+
+/* The heading anchors @deno/gfm emits. Present for everyone who needs them,
+   quiet until the heading is hovered. */
+.prose .anchor {
+  float: left;
+  margin-left: -1.2em;
+  padding-right: 0.35em;
+  color: var(--fg-faint);
+  opacity: 0;
+  line-height: 1;
+}
+.prose h2:hover .anchor,
+.prose h3:hover .anchor,
+.prose .anchor:focus {
+  opacity: 1;
+}
+
+@media (width < 48rem) {
+  .prose .anchor {
+    display: none;
+  }
+}
+
+/* ---------- docs index ---------- */
+
+.doc-cards {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.doc-cards a {
+  display: block;
+  padding: 1.1rem 1.25rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: inherit;
+}
+.doc-cards a:hover {
+  border-color: var(--brand);
+}
+.doc-cards h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.2rem;
+  color: var(--brand);
+  border: 0;
+  padding: 0;
+}
+.doc-cards p {
+  margin: 0;
+  color: var(--fg-dim);
+  font-size: 0.94rem;
+}

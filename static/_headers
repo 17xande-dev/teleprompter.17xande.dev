@@ -1,0 +1,22 @@
+# Cloudflare Pages headers.
+#
+# The CSP admits no third-party origin at all: Web Awesome is bundled into
+# /assets rather than pulled from a CDN, and icons are inline SVG rather than
+# <wa-icon>, which would have fetched them from Font Awesome at runtime.
+#
+# frame-src is the one outward-facing allowance — the live demo frames the app.
+# 'unsafe-inline' in style-src is required because Web Awesome components
+# apply inline styles; it is not needed for script-src and must not be added
+# there.
+/*
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://app.teleprompter.17xande.dev; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()
+
+# Content-hashed by tools/build.ts, so a change is a new filename.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/screenshots/*
+  Cache-Control: public, max-age=86400

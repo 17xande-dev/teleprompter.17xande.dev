@@ -1,0 +1,71 @@
+{
+  // The marketing and docs site for github.com/17xande-dev/teleprompter.
+  // Static output, no framework, no node_modules — same toolchain as the app
+  // repo so there is one thing to install and one thing to know.
+  "tasks": {
+    // Build once, then serve dist/ and rebuild on change. Deliberately not
+    // `deno bundle --watch`: the TypeScript here is one small file that
+    // rarely changes, while the pages and CSS change constantly, and a full
+    // rebuild is fast enough (~1s) that two watchers would only add a way for
+    // them to disagree about what dist/ contains.
+    "dev": "deno task build && deno run -A tools/serve.ts",
+    "build": "deno task clean && deno run -A tools/build.ts",
+    "clean": "rm -rf dist",
+    // Pulls docs/*.md out of the app repo verbatim. Not part of `build`:
+    // building must work from this checkout alone, because Cloudflare Pages
+    // has no copy of the app repo to read.
+    // Reads outside this repo by design (the app repo's docs/), writes only
+    // into content/docs, and shells out to git for the source commit.
+    "sync-docs": "deno run --allow-read --allow-write=content/docs --allow-env=TELEPROMPTER_REPO,TELEPROMPTER_APP_ORIGIN --allow-run=git tools/sync-docs.ts",
+    "check": "deno check src tools",
+    // --allow-env because the tests import the markdown renderer, and Prism's
+    // transitive picocolors reads the environment to decide about colour
+    // before anything here gets a say.
+    "test": "deno test --no-check --allow-read=. --allow-env tools/*_test.ts",
+    "lint": "deno lint src tools",
+    // Not wired to anything automatic, and not run without saying so first.
+    // The Pages git integration is the intended path; this is the manual
+    // escape hatch for when it is not available.
+    "deploy": "deno task build && npx --yes wrangler@4 pages deploy dist --project-name=teleprompter-site"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1.0.19",
+    "@std/encoding": "jsr:@std/encoding@^1.0.11",
+    "@std/fs": "jsr:@std/fs@^1.0.0",
+    "@std/http": "jsr:@std/http@^1.0.0",
+    "@std/path": "jsr:@std/path@^1.0.0",
+    "@deno/gfm": "jsr:@deno/gfm@^0.12.0",
+    "github-slugger": "npm:github-slugger@^2.0.0",
+    // Prism ships every language as a side-effect import; @deno/gfm picks up
+    // whichever have registered themselves. See tools/markdown.ts for the
+    // short list this site actually needs.
+    "prismjs": "npm:prismjs@^1.30.0",
+    // Pinned to the same major the app uses, so the demo page and the app it
+    // frames do not drift apart visually.
+    "@awesome.me/webawesome": "npm:@awesome.me/webawesome@^3.13.0"
+  },
+  // Same set the app repo uses. One graph holds both halves of this repo —
+  // the build scripts, which are Deno, and src/scripts/site.ts, which is the
+  // browser — so the libs have to cover both.
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.asynciterable",
+      "dom.iterable",
+      "esnext",
+      "deno.window",
+      "deno.ns"
+    ]
+  },
+  "fmt": {
+    // content/docs is a byte-for-byte copy from the app repo — see
+    // tools/sync-docs.ts. Formatting it here would put this repo in a fight
+    // with the generator that writes shortcuts.md over there, and would make
+    // every sync show spurious diffs.
+    "exclude": ["content/docs", "dist"]
+  },
+  "lint": {
+    "exclude": ["dist"]
+  },
+  "exclude": ["dist"]
+}
