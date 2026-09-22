@@ -4,8 +4,9 @@ The marketing and documentation site for
 [teleprompter](https://github.com/17xande-dev/teleprompter) — an open source
 teleprompter that runs in your browser.
 
-Static output, no framework, no `node_modules`. TypeScript bundled by Deno, the
-same toolchain the app itself uses, deployed to Cloudflare Pages.
+Static output, no framework. TypeScript is bundled by Deno, the same toolchain
+the app itself uses, and deployed to Cloudflare Pages. The only npm dependency
+is the project-local Wrangler CLI used for deployments.
 
 ## Run it
 
@@ -24,7 +25,7 @@ cd ../teleprompter && deno task dev
 TELEPROMPTER_APP_ORIGIN=http://localhost:8080 deno task dev
 ```
 
-Without that variable the demo frames `https://app.teleprompter.17xande.dev`.
+Without that variable the demo frames `https://prompter.17xande.dev`.
 
 ## Tasks
 
@@ -95,6 +96,14 @@ Cloudflare Pages, build command `deno task build`, output `dist`, with
 `DENO_VERSION` set. `static/_headers` carries the CSP, which admits no
 third-party origin at all — Web Awesome is bundled rather than pulled from a CDN
 and the icons are inline SVG — except `frame-src` for the app being framed.
+
+Install the pinned deployment tooling once with
+`npm --prefix tools/cloudflare install`, authenticate with
+`npm --prefix tools/cloudflare exec -- wrangler login`, then publish manually
+with `deno task deploy`. The Pages project name is `teleprompter-site`; `main`
+is the production branch. For the usual workflow, connect the GitHub repository
+in Cloudflare Pages and use the build command and output directory above so
+pushes deploy automatically.
 
 ## Licence
 

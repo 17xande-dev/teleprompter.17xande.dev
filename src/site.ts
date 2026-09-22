@@ -13,7 +13,7 @@
  *   TELEPROMPTER_APP_ORIGIN=http://localhost:8080 deno task dev
  */
 export const APP_ORIGIN = env("TELEPROMPTER_APP_ORIGIN") ??
-  "https://app.teleprompter.17xande.dev";
+  "https://prompter.17xande.dev";
 
 /**
  * Reading an env var throws when the permission was not granted, and this
