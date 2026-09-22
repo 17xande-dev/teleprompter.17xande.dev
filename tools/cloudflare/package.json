@@ -1,7 +1,0 @@
-{
-  "name": "teleprompter-cloudflare-tools",
-  "private": true,
-  "devDependencies": {
-    "wrangler": "4.135.0"
-  }
-}

@@ -4,9 +4,8 @@ The marketing and documentation site for
 [teleprompter](https://github.com/17xande-dev/teleprompter) — an open source
 teleprompter that runs in your browser.
 
-Static output, no framework. TypeScript is bundled by Deno, the same toolchain
-the app itself uses, and deployed to Cloudflare Pages. The only npm dependency
-is the project-local Wrangler CLI used for deployments.
+Static output, no framework, no `node_modules`. TypeScript is bundled by Deno,
+the same toolchain the app itself uses, and deployed to Cloudflare Pages.
 
 ## Run it
 
@@ -74,11 +73,12 @@ sliced to eight characters, the same shape the app gives itself — so every
 visitor drives their own demo and nobody shares one. The iframes are injected on
 first intersection, so a visit that never scrolls that far never opens a room.
 
-The control frame is laid out at 1280 CSS pixels and scaled down to fit its
-column. Without that the app sees a narrow viewport and switches to its phone
-layout, which is the opposite of what the demo is there to show. Below 640px
-there is no width to scale into, so it is left alone — a phone should see the
-phone layout.
+Each pane is laid out at a fixed logical size and scaled to fit its column: the
+control page at 1024×1280, wide enough to clear the app's own 48rem breakpoint
+(below that it switches to its phone layout, which is the opposite of what the
+demo exists to show), and the viewer at 640×800, scaled _up_ rather than down so
+the script stays readable. The whole demo is hidden below 1024px viewport width
+— two applications side by side have nowhere to go on a phone.
 
 Two things in the **app** repo make this possible, and breaking either one makes
 the demo a pair of blank rectangles:
@@ -92,18 +92,19 @@ app's logs.
 
 ## Deploying
 
-Cloudflare Pages, build command `deno task build`, output `dist`, with
-`DENO_VERSION` set. `static/_headers` carries the CSP, which admits no
-third-party origin at all — Web Awesome is bundled rather than pulled from a CDN
-and the icons are inline SVG — except `frame-src` for the app being framed.
+This is a static site — Cloudflare Pages needs no local tooling to host it.
+Connect this GitHub repository in the Pages dashboard, set the build command to
+`deno task build` and the output directory to `dist`, with `DENO_VERSION` set,
+and every push to `main` deploys on its own.
 
-Install the pinned deployment tooling once with
-`npm --prefix tools/cloudflare install`, authenticate with
-`npm --prefix tools/cloudflare exec -- wrangler login`, then publish manually
-with `deno task deploy`. The Pages project name is `teleprompter-site`; `main`
-is the production branch. For the usual workflow, connect the GitHub repository
-in Cloudflare Pages and use the build command and output directory above so
-pushes deploy automatically.
+`static/_headers` carries the CSP, which admits no third-party origin at all —
+Web Awesome is bundled rather than pulled from a CDN and the icons are inline
+SVG — except `frame-src` for the app being framed.
+
+`deno task deploy` is a manual escape hatch for pushing from this machine
+without waiting on git: it shells out to `npx wrangler`, which fetches the CLI
+on demand and installs nothing permanent, so this repo stays free of
+`node_modules` like the rest of it. First run needs `npx wrangler login`.
 
 ## Licence
 
