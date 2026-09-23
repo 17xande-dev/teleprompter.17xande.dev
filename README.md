@@ -1,5 +1,12 @@
 # teleprompter.17xande.dev
 
+> **Moved.** This site now lives at
+> [17xande.dev/teleprompter](https://17xande.dev/teleprompter/) and is built
+> from the `17xande.dev` repo; the pages below are superseded.
+> `static/_redirects` sends every path on this host to the same path under the
+> new prefix. Deploy this repo once more so Pages serves the redirect, and after
+> that it has no further job.
+
 The marketing and documentation site for
 [teleprompter](https://github.com/17xande-dev/teleprompter) — an open source
 teleprompter that runs in your browser.
