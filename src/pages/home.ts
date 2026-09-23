@@ -291,7 +291,7 @@ ${gallery()}
       serves it alongside the signalling endpoint. With Docker it is one
       command.
     </p>
-    <wa-tab-group>
+    <wa-tab-group active="docker">
       <wa-tab slot="nav" panel="docker">Docker</wa-tab>
       <wa-tab slot="nav" panel="source">From source</wa-tab>
       <wa-tab-panel name="docker">
